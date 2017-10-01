@@ -93,6 +93,7 @@ HCI.init = function(id, debugging) {
 	HCI.pitchButtons = [null, [0, 0], [0, 0]];
 	HCI.timerPlaylist = null;
 	HCI.timerFirstTick = false;
+	HCI.wheelPressed = false;
 
 	HCI.setInFileBrowser(true);
 
@@ -130,9 +131,9 @@ HCI.vinylButtonHandler = function(midiNo, control, value, status, group) {
 
 HCI.wheelTouch = function(midiNo, control, value, status, group) {
 
-	var state = value == ButtonState.pressed; // pressed
+	HCI.wheelPressed = value == ButtonState.pressed; // pressed
 
-	if (state) {
+	if (HCI.wheelPressed) {
 
 		if (!HCI.shift) {
 
@@ -180,8 +181,12 @@ HCI.wheelTurn = function(midiNo, control, value, status, group) {
 
 	} else {
 
-		var filterValue = engine.getValue("[QuickEffectRack1_" + group + "]", "super1");
-		engine.setValue("[QuickEffectRack1_" + group + "]", "super1", filterValue + direction / 100);
+		if (HCI.wheelPressed) {
+
+			var filterValue = engine.getValue("[QuickEffectRack1_" + group + "]", "super1");
+			engine.setValue("[QuickEffectRack1_" + group + "]", "super1", filterValue + direction / 100);
+
+		};
 
 	};
 
@@ -224,29 +229,6 @@ HCI.permPitch = function(midiNo, control, value, status, group) {
 
 };
 
-
-// === HEADPHONE / MASTER GAIN ===
-
-HCI.gain = function(midiNo, control, value, status, group) {
-/*
-	FIXME:
-	The Controller takes care of adjusting the volume of the controllers headphone plug hardware side.
-	Find a way to control master gain without messing with headphone volume.
-
-	// don't do anything when button is released
-	if (value != ButtonState.pressed) return;
-
-	// get pressed buttons data
-	var direction = (control == BUTTONS["gain-"]) ? -1 : 1; // - or + ?
-	var gainType = (HCI.shift) ? "gain" : "headGain"; // shift switches channels
-
-	// get current value
-	var current = engine.getValue(group, gainType);
-
-	// set new value
-	engine.setValue(group, gainType, current + 0.005 * direction);
-*/
-};
 
 // === FILE BROWSER ===
 
@@ -390,6 +372,7 @@ HCI.hotCue = function(midiNo, control, value, status, group) {
 	for (var i = 2; i <= 4; i++) {
 		if (control == BUTTONS[group]["cue" + i]) {
 			cue = i;
+			break;
 		};
 	};
 

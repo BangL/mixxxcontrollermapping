@@ -107,16 +107,6 @@
                 </options>
             </control>
             <control>
-                <group>[Master]</group>
-                <key>HCI.gain</key>
-                <description>Phones gain (+) // shift: master</description>
-                <status>0x90</status>
-                <midino>0x41</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
                 <group>[Channel2]</group>
                 <key>HCI.pitch</key>
                 <description>B Pitch (-) // shift: ++</description>
@@ -141,16 +131,6 @@
                 <description>A JogWheel (pitch bend)</description>
                 <status>0xB0</status>
                 <midino>0x30</midino>
-                <options>
-                    <script-binding/>
-                </options>
-            </control>
-            <control>
-                <group>[Master]</group>
-                <key>HCI.gain</key>
-                <description>Phones gain (-) // shift: master</description>
-                <status>0x90</status>
-                <midino>0x40</midino>
                 <options>
                     <script-binding/>
                 </options>
